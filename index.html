@@ -2,27 +2,20 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Boredom Killer 😎</title>
+<title>Funny Friendship Quiz 😂</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <style>
 body{
-    margin:0;
-    font-family: 'Poppins', sans-serif;
+    font-family:'Poppins', sans-serif;
     text-align:center;
-    background: linear-gradient(135deg,#667eea,#764ba2);
-    color:white;
-    transition:0.5s;
-}
-
-.container{
+    background: linear-gradient(135deg,#ff9ff3,#feca57);
+    color:#333;
     padding:40px;
+    transition:0.5s;
+    overflow:hidden;
 }
 
-h1{
-    font-size:40px;
-}
-
+h1{font-size:40px;}
 button{
     padding:12px 25px;
     margin:10px;
@@ -31,96 +24,130 @@ button{
     cursor:pointer;
     font-size:16px;
     background:white;
-    color:#333;
     transition:0.3s;
 }
 
 button:hover{
     transform:scale(1.1);
-    background:#ffeb3b;
+    background:#ff6b6b;
+    color:white;
 }
 
-#message{
+#quiz, #result{
+    margin-top:30px;
     font-size:20px;
-    margin-top:20px;
-    min-height:40px;
 }
 
-.progress{
-    width:80%;
-    height:20px;
-    background:white;
-    border-radius:20px;
-    margin:20px auto;
-    overflow:hidden;
+.party-item{
+    position:fixed;
+    width:30px;
+    height:30px;
+    pointer-events:none;
+    animation:fall linear infinite;
 }
 
-.progress-bar{
-    height:100%;
-    width:0%;
-    background:limegreen;
-    transition:1s;
+@keyframes fall{
+    0%{transform:translateY(0) rotate(0deg);}
+    100%{transform:translateY(100vh) rotate(360deg);}
 }
 </style>
 </head>
-
 <body>
 
-<div class="container">
-    <h1>Hey Bored Human 😜</h1>
-    <p>Click buttons and let's kill your boredom!</p>
+<h1>🤪 Funny Friendship Quiz 🤣</h1>
+<p>Answer honestly… or just randomly 😎</p>
 
-    <button onclick="randomMessage()">Make Me Laugh 😂</button>
-    <button onclick="changeColor()">Change Mood 🎨</button>
-    <button onclick="increaseHappiness()">Boost Happiness 💖</button>
-    <button onclick="secret()">Secret Button 🤫</button>
-
-    <div id="message"></div>
-
-    <div class="progress">
-        <div class="progress-bar" id="bar"></div>
-    </div>
+<div id="quiz">
+    <p id="question"></p>
+    <div id="options"></div>
 </div>
 
+<div id="result"></div>
+
 <script>
-let messages = [
-"Why don’t programmers like nature? Too many bugs 🐛😂",
-"You are not bored… you are just in energy saving mode 🔋😆",
-"If laziness were a sport, you'd win gold 🥇😂",
-"Smile! Your crush might be watching (probably not) 😜",
-"You clicked this… so you’re officially bored confirmed 😂"
+let questions = [
+    {
+        q:"Your friend eats your last chocolate, you…",
+        a:["Laugh 😆","Cry dramatically 😭","Plot revenge with a meme 😈","Give them your other candy 🍬"]
+    },
+    {
+        q:"Your friend wears socks with sandals, you…",
+        a:["Take a photo secretly 📸","Laugh hysterically 😂","Ask if they need a fashion police 🚓","Join them boldly 🧦"]
+    },
+    {
+        q:"Your friend sings in the shower badly, you…",
+        a:["Join them in duet 🎤","Record and post online 😎","Offer earplugs 👂","Start dancing wildly 💃"]
+    },
+    {
+        q:"They call you at 3AM for random advice, you…",
+        a:["Pick up and act serious 😐","Pretend sleeping 😴","Give ridiculous advice 🤣","Ask for snacks first 🍕"]
+    }
 ];
 
-function randomMessage(){
-    let random = messages[Math.floor(Math.random()*messages.length)];
-    document.getElementById("message").innerText = random;
-}
+let current = 0;
+let score = 0;
+let partyInterval;
 
-function changeColor(){
-    let colors = ["#ff6b6b","#feca57","#48dbfb","#1dd1a1","#5f27cd","#ff9ff3"];
-    document.body.style.background = colors[Math.floor(Math.random()*colors.length)];
-}
-
-let happiness = 0;
-function increaseHappiness(){
-    if(happiness < 100){
-        happiness += 20;
-        document.getElementById("bar").style.width = happiness + "%";
-        document.getElementById("message").innerText = "Happiness Level: " + happiness + "% 😁";
-    }else{
-        document.getElementById("message").innerText = "MAXIMUM HAPPINESS ACHIEVED 🚀🎉";
+function showQuestion(){
+    if(current >= questions.length){
+        showResult();
+        return;
     }
+    document.getElementById("question").innerText = questions[current].q;
+    let optionsDiv = document.getElementById("options");
+    optionsDiv.innerHTML = "";
+    questions[current].a.forEach((option)=>{
+        let btn = document.createElement("button");
+        btn.innerText = option;
+        btn.onclick = ()=>{
+            score += Math.floor(Math.random()*2 + 1); // Random fun scoring
+            triggerFunEffect();
+            current++;
+            showQuestion();
+        };
+        optionsDiv.appendChild(btn);
+    });
 }
 
-function secret(){
-    document.body.innerHTML = `
-    <div style="padding:50px; text-align:center;">
-    <h1>🎉 SURPRISE 🎉</h1>
-    <h2>You are Awesome 😎🔥</h2>
-    <p>Now stop being bored and go conquer the world!</p>
-    <button onclick="location.reload()">Go Back</button>
-    </div>`;
+function triggerFunEffect(){
+    // Random background color
+    let colors = ["#ff6b6b","#feca57","#48dbfb","#1dd1a1","#5f27cd","#ff9ff3"];
+    document.body.style.background = `linear-gradient(135deg,${colors[Math.floor(Math.random()*colors.length)]},${colors[Math.floor(Math.random()*colors.length)]})`;
+    
+    // Floating emoji
+    const emojis = ["😂","🥳","🤣","😎","💃","🕺"];
+    let emoji = document.createElement("div");
+    emoji.classList.add("party-item");
+    emoji.innerText = emojis[Math.floor(Math.random()*emojis.length)];
+    emoji.style.left = Math.random()*100 + "vw";
+    emoji.style.fontSize = Math.random()*30 + 20 + "px";
+    emoji.style.animationDuration = (Math.random()*2 + 1) + "s";
+    document.body.appendChild(emoji);
+    setTimeout(()=>emoji.remove(),3000);
 }
+
+function showResult(){
+    let funnyResults = [
+        "You are the Meme Lord of Friendship 😂",
+        "Friendship Level: Snack Sharing Legend 🍫",
+        "You two are like Salt & Sugar 🧂🍭",
+        "Friendship Level: Ultimate Crazy Duo 🤪",
+        "You are officially BFF Extraordinaire 🏆"
+    ];
+    let resultText = funnyResults[Math.floor(Math.random()*funnyResults.length)];
+    document.getElementById("quiz").style.display = "none";
+    document.getElementById("result").innerHTML = `<h2>${resultText}</h2><button onclick='restart()'>Play Again 🎮</button>`;
+}
+
+function restart(){
+    current = 0;
+    score = 0;
+    document.getElementById("quiz").style.display = "block";
+    document.getElementById("result").innerHTML = "";
+    showQuestion();
+}
+
+showQuestion();
 </script>
 
 </body>
