@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Boredom Killer 😎</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{
+    margin:0;
+    font-family: 'Poppins', sans-serif;
+    text-align:center;
+    background: linear-gradient(135deg,#667eea,#764ba2);
+    color:white;
+    transition:0.5s;
+}
+
+.container{
+    padding:40px;
+}
+
+h1{
+    font-size:40px;
+}
+
+button{
+    padding:12px 25px;
+    margin:10px;
+    border:none;
+    border-radius:25px;
+    cursor:pointer;
+    font-size:16px;
+    background:white;
+    color:#333;
+    transition:0.3s;
+}
+
+button:hover{
+    transform:scale(1.1);
+    background:#ffeb3b;
+}
+
+#message{
+    font-size:20px;
+    margin-top:20px;
+    min-height:40px;
+}
+
+.progress{
+    width:80%;
+    height:20px;
+    background:white;
+    border-radius:20px;
+    margin:20px auto;
+    overflow:hidden;
+}
+
+.progress-bar{
+    height:100%;
+    width:0%;
+    background:limegreen;
+    transition:1s;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>Hey Bored Human 😜</h1>
+    <p>Click buttons and let's kill your boredom!</p>
+
+    <button onclick="randomMessage()">Make Me Laugh 😂</button>
+    <button onclick="changeColor()">Change Mood 🎨</button>
+    <button onclick="increaseHappiness()">Boost Happiness 💖</button>
+    <button onclick="secret()">Secret Button 🤫</button>
+
+    <div id="message"></div>
+
+    <div class="progress">
+        <div class="progress-bar" id="bar"></div>
+    </div>
+</div>
+
+<script>
+let messages = [
+"Why don’t programmers like nature? Too many bugs 🐛😂",
+"You are not bored… you are just in energy saving mode 🔋😆",
+"If laziness were a sport, you'd win gold 🥇😂",
+"Smile! Your crush might be watching (probably not) 😜",
+"You clicked this… so you’re officially bored confirmed 😂"
+];
+
+function randomMessage(){
+    let random = messages[Math.floor(Math.random()*messages.length)];
+    document.getElementById("message").innerText = random;
+}
+
+function changeColor(){
+    let colors = ["#ff6b6b","#feca57","#48dbfb","#1dd1a1","#5f27cd","#ff9ff3"];
+    document.body.style.background = colors[Math.floor(Math.random()*colors.length)];
+}
+
+let happiness = 0;
+function increaseHappiness(){
+    if(happiness < 100){
+        happiness += 20;
+        document.getElementById("bar").style.width = happiness + "%";
+        document.getElementById("message").innerText = "Happiness Level: " + happiness + "% 😁";
+    }else{
+        document.getElementById("message").innerText = "MAXIMUM HAPPINESS ACHIEVED 🚀🎉";
+    }
+}
+
+function secret(){
+    document.body.innerHTML = `
+    <div style="padding:50px; text-align:center;">
+    <h1>🎉 SURPRISE 🎉</h1>
+    <h2>You are Awesome 😎🔥</h2>
+    <p>Now stop being bored and go conquer the world!</p>
+    <button onclick="location.reload()">Go Back</button>
+    </div>`;
+}
+</script>
+
+</body>
+</html>
